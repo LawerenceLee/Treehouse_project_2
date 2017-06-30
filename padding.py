@@ -90,6 +90,11 @@ class Padding:
         return str(all_blocks)
 
     def remove_padding(self, text_to_unpad):
+        """
+        Converts all padded 5 block segments within
+        a string to a list of lists where each block
+        is its own list.
+        """
         str_to_block_list = text_to_unpad.split(' ')
         for block in str_to_block_list:
             list_block = list(block)
