@@ -21,8 +21,8 @@ class OneTimePad:
                 'S': 14, 'T': 29, 'U': 54, 'V': 69, 'W': 84, 'X': 37,
                 'Y': 16, 'Z': 30}
     
-    mod_index = 93  # One more than total
-    range_num = 91 # one less than total
+    mod_index = 93  # One more than total items in key_dict
+    range_num = 91 # Must be at least one less than total items in key_dict
     space_local = 91 # Value with key_dict for a space
 
     def encrypt(self, message):
@@ -75,18 +75,32 @@ class OneTimePad:
             encrypted_text.append(crypt_lett_group)
             cypher_key.append(rand_lett_group)
 
-        print(encrypted_text, '\n', cypher_key)    
+        t_padd = Padding()
+        k_padd = Padding()
+        print("Encrypted Text: {} \nCypher Key: {}".format(
+               t_padd.add_padding(encrypted_text),
+               k_padd.add_padding(cypher_key)))
         
     def decrypt(self, encrypted_text, cypher_key):
+        """
+        
+        """
         unencrypted_text = ''
         blk_id = 0
         lett_id = 0
-        for block in encrypted_text:
+        
+        # Remove padding from both text and key
+        t_pad = Padding()
+        k_pad = Padding()
+        crypt_txt = t_pad.remove_padding(encrypted_text)
+        crypt_key = k_pad.remove_padding(cypher_key)
+        
+        for block in crypt_txt:
 
             # Convert letter to number and decrypt
             for letter in block:
                 encrypt_num = self.key_dict[letter]
-                cypher_num = self.key_dict[cypher_key[blk_id][lett_id]]
+                cypher_num = self.key_dict[crypt_key[blk_id][lett_id]]
                 uncrypt_num = (encrypt_num-cypher_num) % self.mod_index
 
                 # Convert number to decrypted letter and append
@@ -97,3 +111,4 @@ class OneTimePad:
             blk_id += 1
             lett_id = 0
         print(unencrypted_text)
+
