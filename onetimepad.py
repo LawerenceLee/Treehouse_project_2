@@ -77,8 +77,9 @@ class OneTimePad(Cipher):
             # Append letter groups to their repective lists        
             encrypted_text += crypt_lett_group
             cypher_key += rand_lett_group
+        return (encrypted_text, cypher_key)
         
-        print(encrypted_text, '\n', cypher_key)
+        #print("Encrypted Text: {} \nKey: {}".format(encrypted_text, cypher_key))
          
         
     def decrypt(self, encrypted_text, cypher_key):
@@ -106,5 +107,5 @@ class OneTimePad(Cipher):
                 lett_id += 1  
             blk_id += 1
             lett_id = 0
-        print(unencrypted_text)
+        return unencrypted_text
 

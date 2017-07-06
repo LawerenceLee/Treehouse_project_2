@@ -2,10 +2,10 @@ import random
 
 
 class Padding:
-    padding_characters = ['≈', 'ç', '√', '∫', '˜', 'µ', 'å', 'ß', '∂',
+    padding_characters = ['≈', '√', '∫', '˜', 'µ', 'å', 'ß', '∂',
                           'ƒ', '©', '∆', '˚', '¬', 'œ', '∑', '®',
-                          '†', '¥', 'ø', 'π']
-    continue_char = '˙'
+                          '†', '¥', 'ø', 'π', '˙']
+    continue_char = 'ç'
 
     def __init__(self):
         self.padded_text = ''
@@ -36,7 +36,7 @@ class Padding:
                         self.padded_text += block + ' '
                         block = self.continue_char
                 self.__block_filler(block)
-        print(self.padded_text)
+        return(self.padded_text)
         
     def __block_filler(self, word):
         block = list(word)
@@ -56,5 +56,5 @@ class Padding:
                 del self.unpadded_text[-1]
             elif letter not in self.padding_characters:
                 self.unpadded_text.append(letter)
-        print(''.join(self.unpadded_text))
+        return ''.join(self.unpadded_text)
 
