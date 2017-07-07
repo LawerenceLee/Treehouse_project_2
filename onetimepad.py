@@ -22,7 +22,7 @@ class OneTimePad(Cipher):
                 'S': 14, 'T': 29, 'U': 54, 'V': 69, 'W': 84, 'X': 37,
                 'Y': 16, 'Z': 30}
     
-    def __init__(self, mod_index=93, range_num=92, space_local=91):
+    def __init__(self, mod_index=93, range_num=91, space_local=91):
         self.mod_index = mod_index  # Modulo Index, Must be one more than total items in key_dict
         self.range_num = range_num # Must be at least one less than total items in key_dict
         self.space_local = space_local # Value with key_dict for the space character
@@ -56,7 +56,7 @@ class OneTimePad(Cipher):
                 num_of_lett = self.key_dict[letter]
                 rand_num = random.choice(range(self.range_num)) 
                 text_plus_rand_mod = (num_of_lett + rand_num) % self.mod_index
-                crypt_num_to_lett = None
+                #crypt_num_to_lett = None
                 rand_num_to_rand_lett = None
 
                 # Translate numbers to new letters
