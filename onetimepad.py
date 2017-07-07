@@ -21,11 +21,7 @@ class OneTimePad(Cipher):
                 'M': 13, 'N': 28, 'O': 53, 'P': 68, 'Q': 83, 'R': 36,
                 'S': 14, 'T': 29, 'U': 54, 'V': 69, 'W': 84, 'X': 37,
                 'Y': 16, 'Z': 30}
-    
-    def __init__(self, mod_index=93, range_num=91, space_local=91):
-        self.mod_index = mod_index  # Modulo Index, Must be one more than total items in key_dict
-        self.range_num = range_num # Must be at least one less than total items in key_dict
-        self.space_local = space_local # Value with key_dict for the space character
+   
 
 
     def encrypt(self, message):
@@ -39,47 +35,29 @@ class OneTimePad(Cipher):
         function outputs both lists in padded five block segments named
         'Encrypted Text,' and 'Cypher Key.'
         """
-        # Lists to be append to and printed out at the end
         encrypted_text = ''
         cypher_key = ''
-
-        # Each word becomes a list item.
-        message_list_form = message.split()  
-
-        # Letter Group Lists
-        for word in message_list_form:
-            crypt_lett_group = ''
-            rand_lett_group = ''
-
-            # Translate to & Generate Numbers from Letters
-            for letter in word:
-                num_of_lett = self.key_dict[letter]
-                rand_num = random.choice(range(self.range_num)) 
-                text_plus_rand_mod = (num_of_lett + rand_num) % self.mod_index
-                #crypt_num_to_lett = None
-                rand_num_to_rand_lett = None
-
-                # Translate numbers to new letters
-                for key, value in self.key_dict.items():
-                    if value == text_plus_rand_mod:
-                        crypt_lett_group += key
-                    if value == rand_num:
-                        rand_num_to_rand_lett = key
-                        rand_lett_group += key
-
-            # Add a space at the end of each word.    
-            space_num_gen = (self.space_local + rand_num) % self.mod_index
-            for key, value in self.key_dict.items():
-                if value == space_num_gen:
-                    crypt_lett_group += key
-                    rand_lett_group += rand_num_to_rand_lett
-
-            # Append letter groups to their repective lists        
-            encrypted_text += crypt_lett_group
-            cypher_key += rand_lett_group
-        return (encrypted_text, cypher_key)
+        index = 0
         
-        #print("Encrypted Text: {} \nKey: {}".format(encrypted_text, cypher_key))
+        lett_group = []
+        rand_lett_group = []
+        for letter in message:
+            rand_num = random.randint(0, 91)
+            num_of_lett = self.key_dict[letter]
+            add_and_mod = (num_of_lett + rand_num) % 93
+            lett_group.append(add_and_mod)
+            rand_lett_group.append(rand_num)
+            
+        for num in lett_group:
+            for key, val in self.key_dict.items():
+                if val == num:
+                    encrypted_text += key
+                if val == rand_lett_group[index]:
+                    cypher_key += key
+            index += 1
+                    
+        return (encrypted_text, cypher_key)
+            
          
         
     def decrypt(self, encrypted_text, cypher_key):
