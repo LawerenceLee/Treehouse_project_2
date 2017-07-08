@@ -36,7 +36,7 @@ class Padding:
                         self.padded_text += block + ' '
                         block = self.continue_char
                 self.__block_filler(block)
-        return(self.padded_text)
+        return(self.padded_text.rstrip())
         
     def __block_filler(self, word):
         block = list(word)
