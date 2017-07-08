@@ -33,9 +33,6 @@ class Keyword(Cipher):
                     crypt_vals += key  # add values to crypt_vals
                 self.letter_dict[key] = crypt_vals[index]  # reassign val of key
                 index += 1
-           
-            # for items in self.letter_dict.items():
-            #     print(items)
         else:
             raise ValueError('Keyword argument cannot contain repeated letters')
        
