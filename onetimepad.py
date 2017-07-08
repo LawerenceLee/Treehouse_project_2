@@ -20,7 +20,7 @@ class OneTimePad(Cipher):
                 'G': 12, 'H': 26, 'I': 52, 'J': 67, 'K': 82, 'L': 35,
                 'M': 13, 'N': 28, 'O': 53, 'P': 68, 'Q': 83, 'R': 36,
                 'S': 14, 'T': 29, 'U': 54, 'V': 69, 'W': 84, 'X': 37,
-                'Y': 16, 'Z': 30}
+                'Y': 16, 'Z': 30, '~': 92}
    
 
 
@@ -58,8 +58,6 @@ class OneTimePad(Cipher):
                     
         return (encrypted_text, cypher_key)
             
-         
-        
     def decrypt(self, encrypted_text, cypher_key):
         """
         Decrypts a string back to the original text passed
@@ -76,7 +74,7 @@ class OneTimePad(Cipher):
             for letter in block:
                 encrypt_num = self.key_dict[letter]
                 cypher_num = self.key_dict[cypher_key[blk_id][lett_id]]
-                uncrypt_num = (encrypt_num-cypher_num) % self.mod_index
+                uncrypt_num = (encrypt_num-cypher_num) % 93
 
                 # Convert number to decrypted letter and append
                 for key, val in self.key_dict.items():
