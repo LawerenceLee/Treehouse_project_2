@@ -37,14 +37,14 @@ class Padding:
                         block = self.continue_char
                 self.__block_filler(block)
         return(self.padded_text.rstrip())
-        
+
     def __block_filler(self, word):
         block = list(word)
         random_char = random.choices(self.padding_characters, k=(5-len(block)))
         for item in random_char:
                 block.insert(random.randint(0, 5), item) 
         self.padded_text += str(''.join(block)) + ' '
-        
+
     def remove_padding(self, text_to_unpad):
         """
         Converts all padded 5 block segments within

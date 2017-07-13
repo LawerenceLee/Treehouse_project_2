@@ -21,8 +21,6 @@ class OneTimePad(Cipher):
                 'M': 13, 'N': 28, 'O': 53, 'P': 68, 'Q': 83, 'R': 36,
                 'S': 14, 'T': 29, 'U': 54, 'V': 69, 'W': 84, 'X': 37,
                 'Y': 16, 'Z': 30, '~': 92}
-   
-
 
     def encrypt(self, message):
         """
@@ -38,7 +36,7 @@ class OneTimePad(Cipher):
         encrypted_text = ''
         cypher_key = ''
         index = 0
-        
+
         lett_group = []
         rand_lett_group = []
         for letter in message:
@@ -47,7 +45,7 @@ class OneTimePad(Cipher):
             add_and_mod = (num_of_lett + rand_num) % 93
             lett_group.append(add_and_mod)
             rand_lett_group.append(rand_num)
-            
+
         for num in lett_group:
             for key, val in self.key_dict.items():
                 if val == num:
@@ -55,9 +53,9 @@ class OneTimePad(Cipher):
                 if val == rand_lett_group[index]:
                     cypher_key += key
             index += 1
-                    
+
         return (encrypted_text, cypher_key)
-            
+
     def decrypt(self, encrypted_text, cypher_key):
         """
         Decrypts a string back to the original text passed
@@ -67,7 +65,7 @@ class OneTimePad(Cipher):
         unencrypted_text = ''
         blk_id = 0
         lett_id = 0
-        
+
         for block in encrypted_text:
 
             # Convert letter to number and decrypt
@@ -80,7 +78,7 @@ class OneTimePad(Cipher):
                 for key, val in self.key_dict.items():
                     if val == uncrypt_num:
                         unencrypted_text += key
-                lett_id += 1  
+                lett_id += 1
             blk_id += 1
             lett_id = 0
         return unencrypted_text

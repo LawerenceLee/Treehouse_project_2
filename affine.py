@@ -2,7 +2,7 @@ from ciphers import Cipher
 
 
 class Affine(Cipher):
- 
+
     key_dict = {'a': 0, 'b': 15, 'c': 40, 'd': 55, 'e': 70, 'f': 85,
                 'g': 1, 'h': 17, 'i': 41, 'j': 56, 'k': 71, 'l': 86,
                 'm': 2, 'n': 18, 'o': 42, 'p': 57, 'q': 72, 'r': 87,
@@ -32,13 +32,13 @@ class Affine(Cipher):
         else:
             raise ValueError('The "b" value must 1 <= b <= 93')
 
-        #Check if A value is allowed
-        if a >= 1 and a <= self.modulo_num and 93 % a != 0:
-            mod_factors = [3, 31, 93]
+        # Check if A value is allowed
+        if a >= 1 and a <= self.modulo_num and self.modulo_num % a != 0:
+            mod_factors = [3, 31, self.modulo_num]
             for num in range(2, a+1):
                 if a % num == 0 and num not in mod_factors:
                     self.multiplier = a
-        
+  
         # If A value is not assigned raise ValueError
         if self.multiplier is None:
             raise ValueError('The "a" value must 1 <= a <= 93 and not divide evenly into 93')

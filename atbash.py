@@ -22,10 +22,10 @@ class Atbash(Cipher):
         for letter in text:
             if letter != ' ':
                 scrambled_text += self.letter_dict[letter]
-            else: 
+            else:
                 scrambled_text += ' '
         return scrambled_text
-        
+
     def decrypt(self, encrypted_text):
         decrypted_txt = ""
         for letter in encrypted_text:
