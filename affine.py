@@ -1,7 +1,13 @@
 from ciphers import Cipher
+from fractions import gcd
 
 
 class Affine(Cipher):
+    """
+    Affine cipher uses a mathematical function [(ax + b) % 93] to
+    encrypt values and its inverse [(a^-1 * x - b) % 93] to decrypt
+    them.
+    """
 
     key_dict = {'a': 0, 'b': 15, 'c': 40, 'd': 55, 'e': 70, 'f': 85,
                 'g': 1, 'h': 17, 'i': 41, 'j': 56, 'k': 71, 'l': 86,
@@ -22,9 +28,15 @@ class Affine(Cipher):
                 }
 
     def __init__(self, message, a=5, b=8):
+        """
+        Arguments a and b are variable values within the Affine
+        Cipher's mathematical function (ax + b) % 93.
+        """
+
         self.message = message
-        self.modulo_num = 93
+        self.modulo_num = 93   # Value changes if dict changes in size
         self.multiplier = None
+        self.vertical_shift = None
 
         # Check if B value is allowed
         if b >= 1 and b <= self.modulo_num:
@@ -33,39 +45,53 @@ class Affine(Cipher):
             raise ValueError('The "b" value must 1 <= b <= 93')
 
         # Check if A value is allowed
-        if a >= 1 and a <= self.modulo_num and self.modulo_num % a != 0:
-            mod_factors = [3, 31, self.modulo_num]
-            for num in range(2, a+1):
-                if a % num == 0 and num not in mod_factors:
-                    self.multiplier = a
-  
-        # If A value is not assigned raise ValueError
-        if self.multiplier is None:
-            raise ValueError('The "a" value must 1 <= a <= 93 and not divide evenly into 93')
+        if a >= 1 and a <= self.modulo_num and gcd(a, self.modulo_num) == 1:
+            self.multiplier = a
+        else:
+            raise ValueError('The "a" value must 1 <= a <= 93 & the greatest common divisor for "a" and 93 should be one.')
 
     def encrypt(self):
+        """
+        Encrypts plain text with the Affine Cipher.
+        """
+
         encrypted_text = ''
         for letter in self.message:
+
+            # Grab dictionary value (it's a number) of letter.
+            # Plug a, b, and dict values into Affine Mathematical Function
             number = self.key_dict[letter]
             encrypted_val = (self.multiplier*number+self.vertical_shift) % self.modulo_num
+
+            # Convert resulting value back into letter and append to string
+            # to be returned.
             for key, val in self.key_dict.items():
                 if val == encrypted_val:
                     encrypted_text += key
         return encrypted_text
 
     def decrypt(self):
-        # Finding multiplicative inverse for
-        # decryption function.
+        """
+        Decrypts an encrypted string using the Affine Cipher.
+        """
+
+        # Find multiplicative inverse for decryption function.
         multiplicative_inverse = 0
-        for num in range(1, 93):
+        for num in range(1, self.modulo_num):
             if self.multiplier * num % 93 == 1:
-                multiplicative_inverse += num
+                multiplicative_inverse = num
                 break
-        
+
         unencrypted_text = ''
         for letter in self.message:
+
+            # Convert encrypted letter to number value.
+            # Plug in multiplicative inverse, crypted num & b values into
+            # the inverse function of the Affine Cipher.
             crypt_num = self.key_dict[letter]
-            correct_num = multiplicative_inverse * (crypt_num - self.vertical_shift) % 93
+            correct_num = multiplicative_inverse * (crypt_num-self.vertical_shift) % self.modulo_num
+
+            # Convert resulting numbers back to original values using dict and return as a str.
             for key, value in self.key_dict.items():
                 if value == correct_num:
                     unencrypted_text += key

@@ -2,6 +2,14 @@ from ciphers import Cipher
 
 
 class Keyword(Cipher):
+    """
+    Keyword uses a word without repeated letters to create a replacement cipher.
+    In essence its very much like the Caesar Cipher except the shift is the
+    length of the keyword, and the keyword is inserted at the beginning of the
+    alphabet. Then all of the keyword's letters are removed from the alphabet as to not
+    have two letters encode the same value.
+    """
+
     letter_dict = {
                 "a": "Z", "b": "Y", "c": "X", "d": "W", "e": "V", "f": "U",
                 "g": "T", "h": "S", "i": "R", "j": "Q", "k": "P", "l": "O",
@@ -22,9 +30,15 @@ class Keyword(Cipher):
                 }
 
     def __init__(self, text, keyword='uncopyrightable'):
+        """
+        Takes text and keyword as arguemnts. Keyword argument is optional.
+        """
+
+        # Make sure keyword contains only unique characters and no repeats
         self.text = text
         if len(keyword) == len(set(keyword)):
             self.keyword = keyword.lower()
+
             # Creating Dict based on keyword
             crypt_vals = self.keyword + self.keyword.upper() + ''
             index = 0
@@ -35,19 +49,25 @@ class Keyword(Cipher):
                 index += 1
         else:
             raise ValueError('Keyword argument cannot contain repeated letters')
-       
+
     def encrypt(self):
+        """
+        Encrypt plain text using the Keyword Cipher.
+        """
+
         encrypted_text = ''
         for letter in self.text:
             encrypted_text += self.letter_dict[letter]
         return encrypted_text
 
     def decrypt(self):
+        """
+        Decrypts text using the Keyword Cipher.
+        """
+
         decrypt_text = ''
         for letter in self.text:
             for key, value in self.letter_dict.items():
                 if value == letter:
                     decrypt_text += key
         return decrypt_text
-
-

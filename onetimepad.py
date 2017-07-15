@@ -5,6 +5,7 @@ from ciphers import Cipher
 
 
 class OneTimePad(Cipher):
+
     key_dict = {'a': 0, 'b': 15, 'c': 40, 'd': 55, 'e': 70, 'f': 85,
                 'g': 1, 'h': 17, 'i': 41, 'j': 56, 'k': 71, 'l': 86,
                 'm': 2, 'n': 18, 'o': 42, 'p': 57, 'q': 72, 'r': 87,
@@ -82,4 +83,3 @@ class OneTimePad(Cipher):
             blk_id += 1
             lett_id = 0
         return unencrypted_text
-

@@ -42,7 +42,7 @@ class Padding:
         block = list(word)
         random_char = random.choices(self.padding_characters, k=(5-len(block)))
         for item in random_char:
-                block.insert(random.randint(0, 5), item) 
+                block.insert(random.randint(0, 5), item)
         self.padded_text += str(''.join(block)) + ' '
 
     def remove_padding(self, text_to_unpad):
@@ -57,4 +57,3 @@ class Padding:
             elif letter not in self.padding_characters:
                 self.unpadded_text.append(letter)
         return ''.join(self.unpadded_text)
-
